@@ -1,12 +1,30 @@
-DOCKER_COMPOSE := docker-compose
-
 OS := $(shell uname)
 
+SERVICE := web
+
+DOCKER_COMPOSE := docker-compose
+
 build:
-		$(DOCKER_COMPOSE) build
+ifeq ($(OS), Linux)
+  	@echo "Building for Linux"
+	$(DOCKER_COMPOSE) build
+endif
+
+ifeq ($(OS), Windows_NT)
+  	@echo "Building for Window"
+	echo "Write Window commands"
+endif
 
 up:
-		$(DOCKER_COMPOSE) up -d
+ifeq ($(OS, Linux))
+    @echo "running containers for Linux"
+	$(DOCKER_COMPOSE) up -d
+endif
+
+ifeq ($(OS), Windows_NT)
+  	@echo "Running containers for Window"
+	echo "Write Window commands"
+endif
 
 ps: 
 		$(DOCKER_COMPOSE) ps
@@ -18,4 +36,4 @@ down:
 		$(DOCKER_COMPOSE) down 
 
 clean:
-		docker images prune 
+		docker system prune 
